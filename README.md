@@ -1,81 +1,160 @@
 # 📚 Library Management System - REST API + Frontend
 
-Um sistema completo de **gestão de biblioteca**, com **backend em .NET** e **frontend moderno em HTML/CSS/JS**.
+A complete **library management system**, with a **.NET REST API** and a **modern HTML/CSS/JS frontend**.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
 ### 🔧 Backend
-- .NET 8 / 9 – Framework principal  
-- ASP.NET Core – Web API  
-- Swagger/OpenAPI – Documentação automática  
-- C# 11 – Linguagem de programação  
+- .NET 8 / 9 – Main framework  
+- ASP.NET Core – Web API framework  
+- Swagger/OpenAPI – API documentation  
+- C# 11 – Programming language  
 
 ### 🎨 Frontend
-- HTML5 – Estrutura da página  
-- CSS3 – Estilização e design responsivo  
-- JavaScript (ES6+) – Interatividade e consumo da API  
-- Font Awesome – Ícones  
-- Flexbox / Grid – Layout moderno  
+- HTML5 – Page structure  
+- CSS3 – Styling and responsive design  
+- JavaScript (ES6+) – Interactivity and API consumption  
+- Font Awesome – Icons  
+- Flexbox / Grid – Modern layout  
 
 ---
 
-## ✨ Funcionalidades
+## ✨ Features
 
 ### 🔧 Backend (.NET API)
-- ✅ CRUD completo para livros, usuários e empréstimos  
-- ✅ API RESTful com endpoints HTTP  
-- ✅ Documentação automática com Swagger  
-- ✅ Validação de dados e tratamento de erros  
+- ✅ Complete CRUD for **books, users, and loans**  
+- ✅ RESTful API with HTTP endpoints  
+- ✅ Automatic documentation with Swagger  
+- ✅ Data validation and error handling  
 
 ### 🎨 Frontend (HTML/CSS/JS)
-- ✅ Interface moderna e responsiva  
-- ✅ Gestão de livros com filtros e busca  
-- ✅ Controle de usuários  
-- ✅ Sistema completo de empréstimos  
-- ✅ Design responsivo para dispositivos móveis  
-- ✅ Modais para adicionar/editar recursos  
+- ✅ Modern and responsive interface  
+- ✅ Book management with filters and search  
+- ✅ User control  
+- ✅ Complete loan system  
+- ✅ Responsive design for mobile devices  
+- ✅ Modals for adding/editing resources  
 
 ---
 
-## 🚀 Como Executar
+## 🚀 How to Run
 
-### Pré-requisitos
-- SDK **.NET 8 ou 9** instalado  
+### Prerequisites
+- SDK **.NET 8 or 9** installed  
 
-### Passo a passo
+### Steps
 ```bash
-# 1) Acesse a pasta da API
+# 1) Navigate to API folder
 cd BibliotecaAPI
 
-# 2) Restaure as dependências
+# 2) Restore dependencies
 dotnet restore
 
-# 3) Rode a API
+# 3) Run the API
 dotnet run
 
-## 🎯 Frontend Features
+# 4) Open index.html in the Frontend directory
+🎯 Frontend Features
+📖 Book Management
+Listing with informative cards
 
-### 📖 Book Management
-- Listing with **informative cards**  
-- Availability filters  
-- Search by title, author, or genre  
-- Modal to add new books  
+Availability filters
 
-### 👥 User Management
-- List of registered users  
-- Search by name or email  
-- Modal to add new users  
+Search by title, author, or genre
 
-### 🔄 Loan Control
-- View active loans  
-- Return management  
-- Modal to create new loans  
-- Status filters  
+Modal to add new books
 
----
+👥 User Management
+List of registered users
 
-## ⭐ Contribution
-If this project helped you, don’t forget to leave a ⭐ on GitHub!  
+Search by name or email
 
+Modal to add new users
+
+🔄 Loan Control
+View active loans
+
+Return management
+
+Modal to create new loans
+
+Status filters
+
+🔗 API Endpoints
+The API provides full CRUD functionality. Examples below:
+
+📚 Books
+http
+Copiar
+Editar
+# Get all books
+GET /api/books
+
+# Get book by ID
+GET /api/books/{id}
+
+# Add a new book
+POST /api/books
+Content-Type: application/json
+{
+  "title": "The Pragmatic Programmer",
+  "author": "Andrew Hunt",
+  "genre": "Programming",
+  "available": true
+}
+
+# Update book
+PUT /api/books/{id}
+
+# Delete book
+DELETE /api/books/{id}
+👥 Users
+http
+Copiar
+Editar
+# Get all users
+GET /api/users
+
+# Register new user
+POST /api/users
+Content-Type: application/json
+{
+  "name": "John Doe",
+  "email": "john.doe@email.com"
+}
+🔄 Loans
+http
+Copiar
+Editar
+# Get active loans
+GET /api/loans
+
+# Create a new loan
+POST /api/loans
+Content-Type: application/json
+{
+  "userId": 1,
+  "bookId": 2,
+  "loanDate": "2025-08-21",
+  "returnDate": null
+}
+
+# Return a book
+PUT /api/loans/{id}/return
+🐚 Example with cURL
+bash
+Copiar
+Editar
+# Get all books
+curl -X GET https://localhost:5001/api/books
+
+# Add a new book
+curl -X POST https://localhost:5001/api/books \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Clean Code","author":"Robert C. Martin","genre":"Programming","available":true}'
+⭐ Contribution
+If this project helped you, don’t forget to leave a ⭐ on GitHub!
+
+📌 Follow me on LinkedIn: Enzo Spíndola
