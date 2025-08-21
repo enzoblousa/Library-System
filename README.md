@@ -55,4 +55,27 @@ dotnet restore
 # 3) Rode a API
 dotnet run
 
-# 4) Abra o arquivo index.html na pasta Frontend
+## 🎯 Frontend Features
+
+### 📖 Book Management
+- Listing with **informative cards**  
+- Availability filters  
+- Search by title, author, or genre  
+- Modal to add new books  
+
+### 👥 User Management
+- List of registered users  
+- Search by name or email  
+- Modal to add new users  
+
+### 🔄 Loan Control
+- View active loans  
+- Return management  
+- Modal to create new loans  
+- Status filters  
+
+---
+
+## ⭐ Contribution
+If this project helped you, don’t forget to leave a ⭐ on GitHub!  
+
