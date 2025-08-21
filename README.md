@@ -1,108 +1,58 @@
-📚Library Management System - REST API + Frontend
+# 📚 Library Management System - REST API + Frontend
 
-🛠️ Technologies Used
+Um sistema completo de **gestão de biblioteca**, com **backend em .NET** e **frontend moderno em HTML/CSS/JS**.
 
-Backend:
+---
 
-  -.NET 8 - Main framework
-  
-  -ASP.NET Core - Web API framework
-  
-  -Swagger/OpenAPI - API documentation
-  
-  -C#11 - Programming language
-  
-Frontend:
+## 🛠️ Tecnologias Utilizadas
 
-  -HTML5 - Page structure
-  
-  -CSS3 - Styling and responsive design
-  
-  -JavaScript ES6+ - Interactivity and API consumption
-  
-  -Font Awesome - Icons
-  
-  -Flexbox/Grid - Modern layout
-  
+### 🔧 Backend
+- .NET 8 / 9 – Framework principal  
+- ASP.NET Core – Web API  
+- Swagger/OpenAPI – Documentação automática  
+- C# 11 – Linguagem de programação  
 
-✨ Features
+### 🎨 Frontend
+- HTML5 – Estrutura da página  
+- CSS3 – Estilização e design responsivo  
+- JavaScript (ES6+) – Interatividade e consumo da API  
+- Font Awesome – Ícones  
+- Flexbox / Grid – Layout moderno  
 
-🔧 Backend (.NET 9 API)
+---
 
-✅ Complete CRUD for books, users, and loans
+## ✨ Funcionalidades
 
-✅ RESTful API with HTTP endpoints
+### 🔧 Backend (.NET API)
+- ✅ CRUD completo para livros, usuários e empréstimos  
+- ✅ API RESTful com endpoints HTTP  
+- ✅ Documentação automática com Swagger  
+- ✅ Validação de dados e tratamento de erros  
 
-✅ Automatic documentation with Swagger
+### 🎨 Frontend (HTML/CSS/JS)
+- ✅ Interface moderna e responsiva  
+- ✅ Gestão de livros com filtros e busca  
+- ✅ Controle de usuários  
+- ✅ Sistema completo de empréstimos  
+- ✅ Design responsivo para dispositivos móveis  
+- ✅ Modais para adicionar/editar recursos  
 
-✅ Data validation and error handling
+---
 
-🎨 Frontend (HTML/CSS/JS)
+## 🚀 Como Executar
 
-✅ Modern and responsive interface
+### Pré-requisitos
+- SDK **.NET 8 ou 9** instalado  
 
-✅ Book management with filters and search
+### Passo a passo
+```bash
+# 1) Acesse a pasta da API
+cd BibliotecaAPI
 
-✅ User control
+# 2) Restaure as dependências
+dotnet restore
 
-✅ Complete loan system
+# 3) Rode a API
+dotnet run
 
-✅ Responsive design for mobile
-
-✅ Modals for adding/editing resources
-
-
-🚀 How to Run
-
-Prerequisites:
-
--.NET 8/9 SDK
-
-1) Navigate to API folder
-   
-(terminal): cd BibliotecaAPI
-
-2) Restore dependencies
-   
-(terminal): dotnet restore
-
-3) Run the API
-   
-(terminal): dotnet run
-
-4) Open the index.html in Frontend directory.
-
-🎯 Frontend Features
-
-📖 Book Management:
-
-Listing with informative cards
-
-Availability filters
-
-Search by title, author, or genre
-
-Modal to add new books
-
-
-👥 User Management:
-
-List of registered users
-
-Search by name or email
-
-Modal to add new users
-
-🔄 Loan Control:
-
-View active loans
-
-Return management
-
-Modal to create new loans
-
-Status filters
-
-⭐️ If this project helped you, leave a star on GitHub!
-
-follow me!: https://www.linkedin.com/in/enzo-sp%C3%ADndola-1b747431a/ 
+# 4) Abra o arquivo index.html na pasta Frontend
