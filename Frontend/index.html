@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Sistema de Biblioteca</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #34495e;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #1abc9c;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #1abc9c;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 200px;
+            font-size: 14px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .livro-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .livro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+
+        .livro-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .livro-card p {
+            margin-bottom: 8px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .status.disponivel {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.indisponivel {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .usuario-card,
+        .emprestimo-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .usuario-card:hover,
+        .emprestimo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+
+        .usuario-info h4,
+        .emprestimo-info h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .usuario-info p,
+        .emprestimo-info p {
+            color: #555;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            color: #3498db;
+        }
+
+        .loading p {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filters input,
+            .filters select {
+                min-width: unset;
+                width: 100%;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                padding: 20px;
+            }
+            
+            nav {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+            }
+        }
+
+        /* Scroll personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book"></i> Sistema de Biblioteca</h1>
+            <nav>
+                <button class="nav-btn active" onclick="showSection('livros')">
+                    <i class="fas fa-book"></i> Livros
+                </button>
+                <button class="nav-btn" onclick="showSection('usuarios')">
+                    <i class="fas fa-users"></i> Usuários
+                </button>
+                <button class="nav-btn" onclick="showSection('emprestimos')">
+                    <i class="fas fa-exchange-alt"></i> Empréstimos
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Seção de Livros -->
+            <section id="livros-section" class="section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Acervo de Livros</h2>
+                    <button class="btn-primary" onclick="showModal('add-livro')">
+                        <i class="fas fa-plus"></i> Novo Livro
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <input type="text" id="search-livros" placeholder="🔍 Buscar por título, autor ou gênero..." 
+                           oninput="carregarLivros()">
+                    <select id="disponibilidade-filter" onchange="carregarLivros()">
+                        <option value="todos">Todos os livros</option>
+                        <option value="disponiveis">Disponíveis</option>
+                        <option value="indisponiveis">Emprestados</option>
+                    </select>
+                </div>
+
+                <div id="livros-grid" class="grid"></div>
+            </section>
+
+            <!-- Seção de Usuários -->
+            <section id="usuarios-section" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Usuários Cadastrados</h2>
+                    <button class="btn-primary" onclick="showModal('add-usuario')">
+                        <i class="fas fa-user-plus"></i> Novo Usuário
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <input type="text" id="search-usuarios" placeholder="🔍 Buscar por nome ou email..." 
+                           oninput="carregarUsuarios()">
+                </div>
+
+                <div id="usuarios-list" class="list"></div>
+            </section>
+
+            <!-- Seção de Empréstimos -->
+            <section id="emprestimos-section" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-exchange-alt"></i> Controle de Empréstimos</h2>
+                    <button class="btn-primary" onclick="showModal('add-emprestimo')">
+                        <i class="fas fa-hand-holding"></i> Novo Empréstimo
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <select id="status-filter" onchange="carregarEmprestimos()">
+                        <option value="todos">Todos os empréstimos</option>
+                        <option value="ativos">Empréstimos ativos</option>
+                        <option value="devolvidos">Devolvidos</option>
+                    </select>
+                </div>
+
+                <div id="emprestimos-list" class="list"></div>
+            </section>
+        </main>
+
+        <!-- Modais -->
+        <div id="add-livro" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('add-livro')">&times;</span>
+                <h3><i class="fas fa-plus"></i> Adicionar Novo Livro</h3>
+                <form id="livro-form" onsubmit="adicionarLivro(event)">
+                    <div class="form-group">
+                        <label>Título:</label>
+                        <input type="text" id="livro-titulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Autor:</label>
+                        <input type="text" id="livro-autor" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ISBN:</label>
+                        <input type="text" id="livro-isbn" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ano de Publicação:</label>
+                        <input type="number" id="livro-ano" min="1000" max="2024" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gênero:</label>
+                        <input type="text" id="livro-genero" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Salvar Livro
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="add-usuario" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('add-usuario')">&times;</span>
+                <h3><i class="fas fa-user-plus"></i> Adicionar Novo Usuário</h3>
+                <form id="usuario-form" onsubmit="adicionarUsuario(event)">
+                    <div class="form-group">
+                        <label>Nome:</label>
+                        <input type="text" id="usuario-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="usuario-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone:</label>
+                        <input type="tel" id="usuario-telefone" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Salvar Usuário
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="add-emprestimo" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('add-emprestimo')">&times;</span>
+                <h3><i class="fas fa-hand-holding"></i> Realizar Novo Empréstimo</h3>
+                <form id="emprestimo-form" onsubmit="realizarEmprestimo(event)">
+                    <div class="form-group">
+                        <label>Livro:</label>
+                        <select id="emprestimo-livro" required>
+                            <option value="">Selecione um livro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Usuário:</label>
+                        <select id="emprestimo-usuario" required>
+                            <option value="">Selecione um usuário</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dias de Empréstimo:</label>
+                        <input type="number" id="emprestimo-dias" min="1" max="30" value="7" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-check"></i> Realizar Empréstimo
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+
+        // Funções de UI
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(`${sectionName}-section`).classList.add('active');
+            document.querySelector(`button[onclick="showSection('${sectionName}')"]`).classList.add('active');
+            
+            // Carregar dados da seção
+            switch(sectionName) {
+                case 'livros':
+                    carregarLivros();
+                    break;
+                case 'usuarios':
+                    carregarUsuarios();
+                    break;
+                case 'emprestimos':
+                    carregarEmprestimos();
+                    break;
+            }
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            
+            // Preencher selects do modal de empréstimo
+            if (modalId === 'add-emprestimo') {
+                preencherSelectsEmprestimo();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        // API Functions
+        async function fetchData(endpoint) {
+            try {
+                showLoading();
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
+                if (!response.ok) throw new Error('Erro na requisição');
+                return await response.json();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao carregar dados. Verifique se a API está rodando.');
+                return [];
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function postData(endpoint, data) {
+            try {
+                showLoading();
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(error);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert(`Erro: ${error.message}`);
+                return null;
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Livros
+        async function carregarLivros() {
+            const searchTerm = document.getElementById('search-livros').value;
+            const disponibilidade = document.getElementById('disponibilidade-filter').value;
+            
+            let endpoint = '/livros';
+            if (searchTerm) {
+                endpoint = `/livros/pesquisar?termo=${encodeURIComponent(searchTerm)}`;
+            }
+            
+            const livros = await fetchData(endpoint);
+            
+            // Filtrar por disponibilidade
+            let livrosFiltrados = livros;
+            if (disponibilidade === 'disponiveis') {
+                livrosFiltrados = livros.filter(l => l.disponivel);
+            } else if (disponibilidade === 'indisponiveis') {
+                livrosFiltrados = livros.filter(l => !l.disponivel);
+            }
+            
+            exibirLivros(livrosFiltrados);
+        }
+
+        function exibirLivros(livros) {
+            const grid = document.getElementById('livros-grid');
+            grid.innerHTML = '';
+
+            if (livros.length === 0) {
+                grid.innerHTML = '<div class="no-data">Nenhum livro encontrado</div>';
+                return;
+            }
+
+            livros.forEach(livro => {
+                const card = document.createElement('div');
+                card.className = 'livro-card';
+                card.innerHTML = `
+                    <h3>${livro.titulo}</h3>
+                    <p><i class="fas fa-user"></i> ${livro.autor}</p>
+                    <p><i class="fas fa-book"></i> ${livro.genero}</p>
+                    <p><i class="fas fa-calendar"></i> ${livro.anoPublicacao}</p>
+                    <p><i class="fas fa-barcode"></i> ${livro.isbn}</p>
+                    <span class="status ${livro.disponivel ? 'disponivel' : 'indisponivel'}">
+                        ${livro.disponivel ? '📚 Disponível' : '⏳ Emprestado'}
+                    </span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function adicionarLivro(event) {
+            event.preventDefault();
+            
+            const livro = {
+                titulo: document.getElementById('livro-titulo').value,
+                autor: document.getElementById('livro-autor').value,
+                isbn: document.getElementById('livro-isbn').value,
+                anoPublicacao: parseInt(document.getElementById('livro-ano').value),
+                genero: document.getElementById('livro-genero').value
+            };
+
+            const resultado = await postData('/livros', livro);
+            if (resultado) {
+                alert('Livro adicionado com sucesso!');
+                closeModal('add-livro');
+                document.getElementById('livro-form').reset();
+                carregarLivros();
+            }
+        }
+
+        // Usuários
+        async function carregarUsuarios() {
+            const searchTerm = document.getElementById('search-usuarios').value;
+            
+            let endpoint = '/usuarios';
+            if (searchTerm) {
+                endpoint = `/usuarios/pesquisar?termo=${encodeURIComponent(searchTerm)}`;
+            }
+            
+            const usuarios = await fetchData(endpoint);
+            exibirUsuarios(usuarios);
+        }
+
+        function exibirUsuarios(usuarios) {
+            const list = document.getElementById('usuarios-list');
+            list.innerHTML = '';
+
+            if (usuarios.length === 0) {
+                list.innerHTML = '<div class="no-data">Nenhum usuário encontrado</div>';
+                return;
+            }
+
+            usuarios.forEach(usuario => {
+                const card = document.createElement('div');
+                card.className = 'usuario-card';
+                card.innerHTML = `
+                    <div class="usuario-info">
+                        <h4>${usuario.nome}</h4>
+                        <p><i class="fas fa-envelope"></i> ${usuario.email}</p>
+                        <p><i class="fas fa-phone"></i> ${usuario.telefone}</p>
+                        <p><i class="fas fa-calendar"></i> Cadastro: ${new Date(usuario.dataCadastro).toLocaleDateString()}</p>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        async function adicionarUsuario(event) {
+            event.preventDefault();
+            
+            const usuario = {
+                nome: document.getElementById('usuario-nome').value,
+                email: document.getElementById('usuario-email').value,
+                telefone: document.getElementById('usuario-telefone').value
+            };
+
+            const resultado = await postData('/usuarios', usuario);
+            if (resultado) {
+                alert('Usuário adicionado com sucesso!');
+                closeModal('add-usuario');
+                document.getElementById('usuario-form').reset();
+                carregarUsuarios();
+            }
+        }
+
+        // Empréstimos
+        async function carregarEmprestimos() {
+            const status = document.getElementById('status-filter').value;
+            
+            let endpoint = '/emprestimos';
+            if (status === 'ativos') {
+                endpoint = '/emprestimos/ativos';
+            }
+            
+            const emprestimos = await fetchData(endpoint);
+            
+            // Filtrar por status se necessário
+            let emprestimosFiltrados = emprestimos;
+            if (status === 'devolvidos') {
+                emprestimosFiltrados = emprestimos.filter(e => e.dataDevolucaoReal);
+            }
+            
+            exibirEmprestimos(emprestimosFiltrados);
+        }
+
+        function exibirEmprestimos(emprestimos) {
+            const list = document.getElementById('emprestimos-list');
+            list.innerHTML = '';
+
+            if (emprestimos.length === 0) {
+                list.innerHTML = '<div class="no-data">Nenhum empréstimo encontrado</div>';
+                return;
+            }
+
+            emprestimos.forEach(emprestimo => {
+                const card = document.createElement('div');
+                card.className = 'emprestimo-card';
+                card.innerHTML = `
+                    <div class="emprestimo-info">
+                        <h4>📖 ${emprestimo.livroTitulo || 'Livro desconhecido'}</h4>
+                        <p><i class="fas fa-user"></i> ${emprestimo.usuarioNome || 'Usuário desconhecido'}</p>
+                        <p><i class="fas fa-calendar-check"></i> Empréstimo: ${new Date(emprestimo.dataEmprestimo).toLocaleDateString()}</p>
+                        <p><i class="fas fa-calendar-times"></i> Devolução prevista: ${new Date(emprestimo.dataDevolucaoPrevista).toLocaleDateString()}</p>
+                        ${emprestimo.dataDevolucaoReal ? 
+                            `<p><i class="fas fa-check-circle"></i> Devolvido em: ${new Date(emprestimo.dataDevolucaoReal).toLocaleDateString()}</p>` : 
+                            `<p><i class="fas fa-clock"></i> Status: Em andamento</p>`
+                        }
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        async function preencherSelectsEmprestimo() {
+            const selectLivro = document.getElementById('emprestimo-livro');
+            const selectUsuario = document.getElementById('emprestimo-usuario');
+            
+            // Carregar livros disponíveis
+            const livros = await fetchData('/livros/disponiveis');
+            selectLivro.innerHTML = '<option value="">Selecione um livro</option>';
+            livros.forEach(livro => {
+                const option = document.createElement('option');
+                option.value = livro.id;
+                option.textContent = `${livro.titulo} - ${livro.autor}`;
+                selectLivro.appendChild(option);
+            });
+            
+            // Carregar usuários
+            const usuarios = await fetchData('/usuarios');
+            selectUsuario.innerHTML = '<option value="">Selecione um usuário</option>';
+            usuarios.forEach(usuario => {
+                const option = document.createElement('option');
+                option.value = usuario.id;
+                option.textContent = `${usuario.nome} - ${usuario.email}`;
+                selectUsuario.appendChild(option);
+            });
+        }
+
+        async function realizarEmprestimo(event) {
+            event.preventDefault();
+            
+            const emprestimo = {
+                livroId: parseInt(document.getElementById('emprestimo-livro').value),
+                usuarioId: parseInt(document.getElementById('emprestimo-usuario').value),
+                diasEmprestimo: parseInt(document.getElementById('emprestimo-dias').value)
+            };
+
+            const resultado = await postData('/emprestimos', emprestimo);
+            if (resultado) {
+                alert('Empréstimo realizado com sucesso!');
+                closeModal('add-emprestimo');
+                document.getElementById('emprestimo-form').reset();
+                carregarEmprestimos();
+                carregarLivros(); // Atualizar status dos livros
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar dados iniciais
+            carregarLivros();
+            
+            // Fechar modal clicando fora
+            window.onclick = function(event) {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            };
+        });
+    </script>
+</body>
+</html>
