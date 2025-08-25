@@ -2,7 +2,8 @@
 
 A complete **library management system**, with a **.NET REST API** and a **modern HTML/CSS/JS frontend**.
 
-![Uploading image.png…]()
+<img width="1333" height="628" alt="image" src="https://github.com/user-attachments/assets/aee59dd9-e24a-40ea-9918-a279ad9c1319" />
+
 
 
 ---
