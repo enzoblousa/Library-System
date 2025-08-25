@@ -39,13 +39,13 @@ A complete **library management system**, with a **.NET REST API** and a **moder
 
 ---
 
-## 🚀 How to Run
+### 🚀 How to Run
 
 ### Prerequisites
 - SDK **.NET 8 or 9** installed  
 
 ### Steps
-```bash
+
 # 1) Navigate to API folder
 cd BibliotecaAPI
 
