@@ -2,6 +2,9 @@
 
 A complete **library management system**, with a **.NET REST API** and a **modern HTML/CSS/JS frontend**.
 
+![Uploading image.png…]()
+
+
 ---
 
 ## 🛠️ Technologies Used
